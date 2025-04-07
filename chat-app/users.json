@@ -1,0 +1,17 @@
+{
+    "users": {
+      "user1": {
+        "displayName": "Alice",
+        "email": "alice@example.com",
+        "online": true,
+        "lastSeen": 1712410000000
+      },
+      "user2": {
+        "displayName": "Bob",
+        "email": "bob@example.com",
+        "online": false,
+        "lastSeen": 1712400000000
+      }
+    }
+  }
+  

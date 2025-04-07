@@ -1,0 +1,20 @@
+{
+    "privateChats": {
+      "user1_user2": {
+        "users": ["user1", "user2"],
+        "messages": {
+          "msg1": {
+            "from": "user1",
+            "text": "Salut Bob !",
+            "timestamp": 1712411000000
+          },
+          "msg2": {
+            "from": "user2",
+            "text": "Hey Alice ! Comment ça va ?",
+            "timestamp": 1712411200000
+          }
+        }
+      }
+    }
+  }
+  

@@ -3,10 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
+import { UserListComponent } from '../../user-list/user-list.component';
+
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, UserListComponent],
   template: `
     <div class="home">
       <h1>Bienvenue dans le Chat ! 🎉</h1>

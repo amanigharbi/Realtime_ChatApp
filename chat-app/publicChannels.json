@@ -1,0 +1,30 @@
+{
+    "publicChannels": {
+      "general": {
+        "name": "#général",
+        "messages": {
+          "msg1": {
+            "from": "user2",
+            "text": "Bienvenue tout le monde ! 🎉",
+            "timestamp": 1712405000000
+          },
+          "msg2": {
+            "from": "user1",
+            "text": "Salut à tous ! 👋",
+            "timestamp": 1712405200000
+          }
+        }
+      },
+      "random": {
+        "name": "#random",
+        "messages": {
+          "msg1": {
+            "from": "user1",
+            "text": "Quelqu’un a vu le dernier épisode de la série ?",
+            "timestamp": 1712406000000
+          }
+        }
+      }
+    }
+  }
+  

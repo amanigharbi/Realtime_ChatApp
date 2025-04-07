@@ -1,0 +1,12 @@
+<div class="user-list">
+    <h3>Utilisateurs connectés</h3>
+  
+    <ul>
+      <li *ngFor="let user of users">
+        <span [class.online]="user.online" [class.offline]="!user.online"></span>
+        {{ user.displayName }}
+        <small *ngIf="!user.online"> (Dernière connexion : {{ user.lastSeen | date:'shortTime' }})</small>
+      </li>
+    </ul>
+  </div>
+  
