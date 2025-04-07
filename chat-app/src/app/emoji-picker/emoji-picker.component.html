@@ -9,7 +9,7 @@
   
     <div class="input-area">
       <input [(ngModel)]="inputText" (keyup.enter)="sendMessage()" placeholder="Écris un message..." />
-      <emoji-mart (emojiClick)="addEmoji($event)"></emoji-mart> <!-- Sélecteur d'émoticônes -->
+      <app-emoji-picker (emojiSelect)="handleEmojiSelect($event)"></app-emoji-picker> <!-- Sélecteur d'émoticônes -->
       <button (click)="sendMessage()">Envoyer</button>
     </div>
   </div>

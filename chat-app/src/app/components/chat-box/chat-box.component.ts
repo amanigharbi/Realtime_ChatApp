@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { getDatabase, ref, onValue, push, set, serverTimestamp } from '@angular/fire/database';
 import { FormsModule } from '@angular/forms';
+import { EmojiPickerComponent } from '../../emoji-picker/emoji-picker.component';  // Import du composant emoji
 
 @Component({
   selector: 'app-chat-box',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, EmojiPickerComponent],
   templateUrl: './chat-box.component.html',
   styleUrls: ['./chat-box.component.scss']
 })
@@ -16,16 +17,26 @@ export class ChatBoxComponent implements OnInit {
   inputText: string = '';
   chatType: 'private' | 'channel' = 'private';
   targetId: string = '';
-  currentUserId: string = ''; // à récupérer depuis AuthService
+  currentUserId: string = ''; // À récupérer depuis AuthService
+  users: any = {};  // Stockage des utilisateurs et leurs noms
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // exemple hardcodé, à remplacer par l'auth réelle
+    // Exemple hardcodé, à remplacer par l'auth réelle
     this.currentUserId = 'user1';
 
+    const db = getDatabase();
+
+    // Charger les utilisateurs (pour récupérer leurs noms)
+    const usersRef = ref(db, 'users');
+    onValue(usersRef, snapshot => {
+      const data = snapshot.val();
+      this.users = data;  // On stocke les noms des utilisateurs dans this.users
+    });
+
+    // Chargement des messages pour le chat (privé ou public)
     this.route.params.subscribe(params => {
-      const db = getDatabase();
       this.chatType = this.route.snapshot.url[0].path as 'private' | 'channel';
       this.targetId = params['uid'] || params['cid'];
 
@@ -49,6 +60,19 @@ export class ChatBoxComponent implements OnInit {
     return [uid1, uid2].sort().join('_');
   }
 
+  getUserName(userId: string): string {
+    return this.users[userId]?.displayName || 'Utilisateur';  // Retourne le nom de l'utilisateur ou un fallback
+  }
+
+  getFormattedTime(timestamp: number): string {
+    const date = new Date(timestamp);
+    return `${date.getHours()}:${date.getMinutes()}`;
+  }
+
+  handleEmojiSelect(emoji: string) {
+    this.inputText += emoji;  // Ajoute l'emoji sélectionné au texte du message
+  }
+
   sendMessage() {
     if (!this.inputText.trim()) return;
 
@@ -64,6 +88,6 @@ export class ChatBoxComponent implements OnInit {
       timestamp: serverTimestamp()
     });
 
-    this.inputText = '';
+    this.inputText = '';  // Réinitialisation du champ de texte
   }
 }
