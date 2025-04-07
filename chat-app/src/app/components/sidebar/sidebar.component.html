@@ -1,0 +1,16 @@
+<div class="sidebar">
+    <h3>👥 Utilisateurs</h3>
+    <ul>
+      <li *ngFor="let user of users" (click)="openPrivateChat(user.id)">
+        {{ user.name }}
+      </li>
+    </ul>
+  
+    <h3>📢 Canaux</h3>
+    <ul>
+      <li *ngFor="let chan of channels" (click)="openChannel(chan)">
+        #{{ chan }}
+      </li>
+    </ul>
+  </div>
+  

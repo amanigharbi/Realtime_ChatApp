@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
-import { UserListComponent } from '../../user-list/user-list.component';
+import { UserListComponent } from '../../components/user-list/user-list.component';
 
 @Component({
   selector: 'app-home',
