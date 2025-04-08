@@ -1,4 +1,67 @@
-<div class="home-container">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-6">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold animated-title" href="#">ChatVerse 🚀</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto d-flex align-items-center">
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="/home">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/chat">Chats</a>
+          </li>
+  
+        <!-- Box de l'utilisateur avec Avatar, Nom et Icône de déconnexion -->
+<li class="nav-item d-flex align-items-center user-box">
+    <!-- Avatar de l'utilisateur (remplacer par une image si disponible) -->
+    <i class="bi bi-person-circle user-avatar me-2"></i>
+    
+    <!-- Nom de l'utilisateur -->
+    <span class="navbar-text me-2">{{ username }}</span>
+  
+    <!-- Icône de déconnexion -->
+    <button class="btn btn-outline-light btn-sm" (click)="logout()">
+      <i class="bi bi-box-arrow-right"></i>
+    </button>
+  </li>
+  
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  
+
+<!-- Sélecteur de thème vertical -->
+<div class="theme-btn-container-vertical">
+  <div
+    *ngFor="let theme of themeService.themes"
+    class="theme-btn"
+    (click)="themeService.setTheme(theme)"
+    [ngStyle]="{
+      'background': theme.background,
+      'width.px': 25,
+      'height.px': 25,
+      'border-radius': '50%',
+      'cursor': 'pointer'
+    }"
+  ></div>
+</div>
+
+<!-- CONTENU -->
+<div class="home-container text-center">
+  <h1 class="display-4 mt-5 mb-3 fade-in">Bienvenue sur <strong>ChatVerse</strong> ! 🎉</h1>
+  <p class="lead fade-in-delay">Rejoignez les conversations en direct et discutez avec d'autres utilisateurs.</p>
+
+  <div class="chat-button mt-4">
+    <a routerLink="/chat" class="btn btn-primary btn-lg">Accéder aux chats 💬</a>
+  </div>
+
+  <div class="user-list mt-5 fade-in-delay-2">
     <app-user-list></app-user-list>
   </div>
-  
+</div>

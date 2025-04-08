@@ -1,0 +1,124 @@
+.theme-btn-container-vertical {
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 2;
+  
+    .theme-btn {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease;
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+.animated-title {
+    font-size: 1.5rem;
+    animation: slideIn 1s ease-in-out;
+  }
+  
+  .fade-in {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+  }
+  
+  .fade-in-delay {
+    opacity: 0;
+    animation: fadeIn 1s 0.5s forwards;
+  }
+  
+  .fade-in-delay-2 {
+    opacity: 0;
+    animation: fadeIn 1s 1s forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+  }
+  
+  .navbar {
+    font-family: 'Segoe UI', sans-serif;
+    gap: 10px;  /* Espace entre l'avatar, le nom et le bouton de déconnexion */
+
+  }
+  
+  .home-container {
+    padding: 2rem;
+
+  }
+
+/* Style du tableau */
+.table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    padding: 10px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  
+  thead {
+    background-color: #f8f9fa;
+  }
+  
+  th {
+    font-weight: bold;
+  }
+  
+  /* Design des lignes du tableau */
+  .user-row {
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Effet de survol de la ligne */
+  .user-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Avatar style */
+  .user-row i {
+    font-size: 30px;
+    color: #4d4d4d;
+  }
+  
+  /* Couleurs d'état */
+  .text-success {
+    color: #28a745;
+  }
+  
+  .text-danger {
+    color: #dc3545;
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    table {
+      font-size: 14px;
+    }
+  
+    th, td {
+      padding: 8px;
+    }
+  
+    .user-row i {
+      font-size: 25px;
+    }
+  }
+  
+  
+  
+  

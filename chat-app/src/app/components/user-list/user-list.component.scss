@@ -1,29 +1,67 @@
+/* Style pour la liste des utilisateurs */
 .user-list {
-    ul {
-      list-style: none;
-      padding: 0;
-  
-      li {
-        display: flex;
-        align-items: center;
-        margin-bottom: 0.5rem;
-  
-        span {
-          display: inline-block;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          margin-right: 0.5rem;
-        }
-  
-        .online {
-          background-color: limegreen;
-        }
-  
-        .offline {
-          background-color: gray;
-        }
-      }
-    }
-  }
-  
+  margin-top: 20px;
+}
+/* Style du tableau */
+.table {
+
+  width: 80%; /* Réduire la largeur du tableau */
+  margin: 0 auto;
+  border-collapse: collapse;
+  font-size: 14px; /* Réduire la taille de la police */
+}
+/* Style des cartes utilisateurs */
+.user-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.user-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenu des cartes */
+.card-body {
+  padding: 20px;
+  text-align: center;
+}
+
+.avatar {
+  font-size: 40px;
+  margin-bottom: 10px;
+  color: #4d4d4d;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 10px;
+}
+
+.status {
+  margin: 10px 0;
+}
+
+.online {
+  color: #28a745;
+  font-weight: bold;
+}
+
+.offline {
+  color: #dc3545;
+  font-weight: bold;
+}
+
+small {
+  color: #888;
+  font-style: italic;
+}

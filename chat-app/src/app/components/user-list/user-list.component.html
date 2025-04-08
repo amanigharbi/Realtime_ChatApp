@@ -1,12 +1,31 @@
 <div class="user-list">
-    <h3>Utilisateurs connectés</h3>
-  
-    <ul>
-      <li *ngFor="let user of users">
-        <span [class.online]="user.online" [class.offline]="!user.online"></span>
-        {{ user.displayName }}
-        <small *ngIf="!user.online"> (Dernière connexion : {{ user.lastSeen | date:'shortTime' }})</small>
-      </li>
-    </ul>
-  </div>
-  
+  <h3>Utilisateurs connectés</h3>
+  <br><br>
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th>Nom d'utilisateur</th>
+        <th>Email</th>
+        <th>État</th>
+        <th>Dernière connexion</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users" [ngClass]="{'online': user.online, 'offline': !user.online}" class="user-row">
+      
+        <td> <i class="bi bi-person-circle"></i>{{ user.displayName }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <span [ngClass]="{'text-success': user.online, 'text-danger': !user.online}">
+            {{ user.online ? 'En ligne' : 'Hors ligne' }}
+          </span>
+        </td>
+        <td>
+          <!-- Dernière connexion affichée si l'utilisateur est hors ligne -->
+          <small *ngIf="!user.online">{{ user.lastSeen | date: 'shortTime' }}</small>
+          <span *ngIf="user.online">-</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
