@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 
 // Importe les composants enfants
@@ -24,7 +24,7 @@ export class ChatPageComponent {
   chatType: 'private' | 'channel' = 'private';
   targetId: string | null = null;
 
-  constructor(private route: ActivatedRoute, public themeService: ThemeService) {
+  constructor(private auth: AuthService, private router: Router, private route: ActivatedRoute, public themeService: ThemeService) {
     this.route.params.subscribe(params => {
       if (params['uid']) {
         this.chatType = 'private';
@@ -47,7 +47,8 @@ export class ChatPageComponent {
     }
   }
 
-  logout() {
-    this.authService.logout();
+  async logout() {
+    await this.auth.logout();
+    this.router.navigateByUrl('/login');
   }
 }

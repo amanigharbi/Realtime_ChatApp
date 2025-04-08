@@ -20,6 +20,7 @@ export class ChatBoxComponent implements OnInit, AfterViewChecked {
   messages: any[] = [];
   newMessage = '';
   currentUserId = '';
+  currentUser = 'Moi'; // remplace par ton utilisateur actuel
 
   constructor(private route: ActivatedRoute) {}
 
@@ -89,4 +90,17 @@ export class ChatBoxComponent implements OnInit, AfterViewChecked {
       }, 100);
     }
   }
+  userAvatars: { [uid: string]: string } = {
+    'current_user_uid': 'https://api.dicebear.com/7.x/thumbs/svg?seed=Me',
+    'txsLhM241LTV5Xkzn4rSEoEIxPQ2': 'https://api.dicebear.com/7.x/thumbs/svg?seed=Fox',
+    'test': 'https://api.dicebear.com/7.x/thumbs/svg?seed=Cat',
+    'test123': 'https://api.dicebear.com/7.x/thumbs/svg?seed=Dog',
+    'user1': 'https://api.dicebear.com/7.x/thumbs/svg?seed=Monkey',
+    'user2': 'https://api.dicebear.com/7.x/thumbs/svg?seed=Rabbit'
+  };
+  
+  getUserAvatar(uid: string): string {
+    return this.userAvatars[uid] || 'https://api.dicebear.com/7.x/thumbs/svg?seed=Unknown';
+  }
+  
 }
