@@ -1,14 +1,53 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from    '../../components/sidebar/sidebar.component';
-import { RouterModule } from '@angular/router';
-import { ChatBoxComponent } from '../../components/chat-box/chat-box.component';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
+// Importe les composants enfants
+import { SidebarComponent } from '../../components/sidebar/sidebar.component';
+import { ChatBoxComponent } from '../../components/chat-box/chat-box.component';
+import { AuthService } from '../../services/auth.service';
+import { ThemeService } from '../../services/theme.service';
 @Component({
   selector: 'app-chat-page',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, ChatBoxComponent, RouterModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SidebarComponent,
+    ChatBoxComponent
+  ],
   templateUrl: './chat-page.component.html',
   styleUrls: ['./chat-page.component.scss']
 })
-export class ChatPageComponent {}
+export class ChatPageComponent {
+  chatType: 'private' | 'channel' = 'private';
+  targetId: string | null = null;
+
+  constructor(private route: ActivatedRoute, public themeService: ThemeService) {
+    this.route.params.subscribe(params => {
+      if (params['uid']) {
+        this.chatType = 'private';
+        this.targetId = params['uid'];
+        console.log('Chat privé avec', this.targetId);
+      } else if (params['cid']) {
+        this.chatType = 'channel';
+        this.targetId = params['cid'];
+        console.log('Canal public :', this.targetId);
+      }
+    });
+  }
+  username = '';
+  private authService = inject(AuthService);
+
+  ngOnInit(): void {
+    const currentUser = this.authService.currentUser;
+    if (currentUser) {
+      this.username = currentUser.email?.split('@')[0] ?? 'User';
+    }
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+}

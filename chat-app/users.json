@@ -1,17 +1,70 @@
 {
-    "users": {
-      "user1": {
-        "displayName": "Alice",
-        "email": "alice@example.com",
-        "online": true,
-        "lastSeen": 1712410000000
-      },
-      "user2": {
-        "displayName": "Bob",
-        "email": "bob@example.com",
-        "online": false,
-        "lastSeen": 1712400000000
+  "privateChats": {
+    "user1_user2": {
+      "messages": {
+        "msg1": {
+          "from": "user2",
+          "to": "user1",
+          "text": "Bienvenue tout le monde ! 🎉",
+          "timestamp": 1712405000000
+        },
+        "msg2": {
+          "from": "user1",
+          "to": "user2",
+          "text": "Salut à tous ! 👋",
+          "timestamp": 1712405200000
+        }
       }
     }
+  },
+  "publicChannels": {
+    "general": {
+      "name": "#général",
+      "members": {
+        "user1": true,
+        "user2": true
+      },
+      "messages": {
+        "msg1": {
+          "from": "user2",
+          "text": "Bienvenue tout le monde ! 🎉",
+          "timestamp": 1712405000000
+        },
+        "msg2": {
+          "from": "user1",
+          "text": "Salut à tous ! 👋",
+          "timestamp": 1712405200000
+        }
+      }
+    },
+    "random": {
+      "name": "#random",
+      "members": {
+        "user1": true
+      },
+      "messages": {
+        "msg1": {
+          "from": "user1",
+          "text": "Quelqu’un a vu le dernier épisode de la série ?",
+          "timestamp": 1712406000000
+        }
+      }
+    }
+  },
+  "users": {
+    "1ALVeaWqnbR7ulohsSdJOPr4JZl1": {
+      "uid": "1ALVeaWqnbR7ulohsSdJOPr4JZl1",
+      "displayName": "pateyih553",
+      "email": "pateyih553@kytstore.com",
+      "lastSeen": 1744109874843,
+      "online": false
+    },
+    "txsLhM241LTV5Xkzn4rSEoEIxPQ2": {
+      "uid": "txsLhM241LTV5Xkzn4rSEoEIxPQ2",
+      "displayName": "test",
+      "email": "test123@gmail.com",
+      "lastSeen": null,
+      "online": true
+    }
   }
-  
+}

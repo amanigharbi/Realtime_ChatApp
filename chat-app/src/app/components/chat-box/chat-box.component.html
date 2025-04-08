@@ -1,5 +1,30 @@
-<input [(ngModel)]="inputText" (keyup.enter)="sendMessage(inputText)" placeholder="Écris un message..." />
-
-<app-emoji-picker (emojiSelected)="addEmoji($event)"></app-emoji-picker>
-
-<button (click)="sendMessage(inputText)">Envoyer</button>
+<div class="chat-box h-full flex flex-col">
+    <!-- Header -->
+    <div class="chat-header p-4 bg-white shadow">
+      <h2 class="text-xl font-semibold" style="color: #000;"> <!-- Change la couleur en noir -->
+        {{ chatType === 'private' ? 'Discussion Privée' : 'Canal Public' }} : {{ targetId }}
+      </h2>
+    </div>
+  
+    <!-- Messages -->
+    <div class="chat-messages flex-1 overflow-y-auto p-4" #scrollContainer>
+      <div *ngFor="let msg of messages" class="mb-2">
+        <div class="text-sm text-gray-600" style="color: #000;"> <!-- Change la couleur du texte de l'utilisateur en noir -->
+          {{ msg.from }}
+        </div>
+        <div class="bg-blue-100 p-2 rounded-lg inline-block" style="color: #000;"> <!-- Change la couleur du texte du message en noir -->
+          {{ msg.text }}
+        </div>
+        <div class="text-xs text-gray-400" style="color: #000;"> <!-- Change la couleur de l'heure en noir -->
+          {{ msg.timestamp | date:'shortTime' }}
+        </div>
+      </div>
+    </div>
+  
+    <!-- Input -->
+    <div class="chat-input p-4 bg-white border-t flex items-center gap-2">
+      <input [(ngModel)]="newMessage" class="flex-1 border rounded p-2" placeholder="Tape ton message..." style="color: #000;">
+      <button (click)="sendMessage()" class="bg-blue-500 text-white px-4 py-2 rounded">Envoyer</button>
+    </div>
+  </div>
+  

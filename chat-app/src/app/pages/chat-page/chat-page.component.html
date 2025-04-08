@@ -1,5 +1,54 @@
-<div class="chat-layout">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-6">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold animated-title" href="#">ChatVerse 🚀</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto d-flex align-items-center">
+        <li class="nav-item">
+          <a class="nav-link " routerLink="/home">Accueil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" routerLink="/chat">Chats</a>
+        </li>
+
+        <!-- Box de l'utilisateur avec Avatar, Nom et Icône de déconnexion -->
+        <li class="nav-item d-flex align-items-center user-box">
+          <i class="bi bi-person-circle user-avatar me-2"></i>
+          <span class="navbar-text me-2">{{ username }}</span>
+          <button class="btn btn-outline-light btn-sm" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Sélecteur de thème vertical -->
+<div class="theme-btn-container-vertical">
+  <div
+    *ngFor="let theme of themeService.themes"
+    class="theme-btn"
+    (click)="themeService.setTheme(theme)"
+    [ngStyle]="{
+      'background': theme.background,
+      'width.px': 25,
+      'height.px': 25,
+      'border-radius': '50%',
+      'cursor': 'pointer'
+    }"
+  ></div>
+</div>
+
+<!-- CONTENU DE LA PAGE DE CHAT -->
+<div class="home-container">
+  <div class="chat-layout">
     <app-sidebar></app-sidebar>
     <app-chat-box></app-chat-box>
   </div>
   
+</div>

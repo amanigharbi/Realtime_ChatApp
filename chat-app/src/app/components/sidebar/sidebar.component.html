@@ -1,16 +1,27 @@
 <div class="sidebar">
-    <h3>👥 Utilisateurs</h3>
-    <ul>
-      <li *ngFor="let user of users" (click)="openPrivateChat(user.id)">
-        {{ user.name }}
-      </li>
-    </ul>
-  
-    <h3>📢 Canaux</h3>
-    <ul>
-      <li *ngFor="let chan of channels" (click)="openChannel(chan)">
-        #{{ chan }}
-      </li>
-    </ul>
-  </div>
-  
+  <h3 class="sidebar-title">Utilisateurs</h3>
+  <ul class="user-list">
+    <li *ngFor="let user of users" class="user-item" (click)="openChat(user)">
+      <!-- Avatar utilisateur -->
+      <div class="user-avatar">
+        <i class="bi bi-person-circle"></i>
+      </div>
+
+      <!-- Nom de l'utilisateur avec statut -->
+      <div class="user-details">
+        <span class="user-name">{{ user.displayName }}</span>
+        <span [class.online]="user.online" class="status-indicator"></span>
+      </div>
+    </li>
+  </ul>
+<br><br>
+  <h3 class="sidebar-title">Canaux Publics</h3>
+  <ul class="channel-list">
+    <li *ngFor="let channel of publicChannels" class="channel-item" (click)="openChannel(channel)">
+      <!-- Nom du canal -->
+      <div class="channel-name">
+        <span>{{ channel.name }}</span>
+      </div>
+    </li>
+  </ul>
+</div>

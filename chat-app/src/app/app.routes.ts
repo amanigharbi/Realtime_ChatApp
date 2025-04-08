@@ -15,7 +15,8 @@ export const routes: Routes = [
     component: ChatPageComponent,
     canActivate: [authGuard],  // Protéger l'accès à la page de chat
     children: [
-      { path: 'private/:uid', component: ChatPageComponent },  // Chat privé avec un utilisateur
+      { path: 'chat/private/:uid', component: ChatPageComponent },
+
       { path: 'channel/:cid', component: ChatPageComponent },  // Chat dans un canal public
     ]
   }

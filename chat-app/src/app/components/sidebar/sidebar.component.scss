@@ -1,30 +1,108 @@
+/* Sidebar Styles */
 .sidebar {
-    width: 250px;
-    background: #ffffff;
-    border-right: 1px solid #ddd;
-    padding: 1rem;
-    overflow-y: auto;
-  
-    h3 {
-      margin-top: 1rem;
-      font-size: 1rem;
-      color: #444;
-    }
-  
-    ul {
-      list-style: none;
-      padding: 0;
-  
-      li {
-        cursor: pointer;
-        padding: 0.5rem;
-        border-radius: 8px;
-        transition: background 0.2s;
-  
-        &:hover {
-          background: #f1f1f1;
-        }
-      }
-    }
+  width: 17%;
+  background-color: #f4f4f4;
+  padding: 20px;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 10%;
+}
+
+.sidebar-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+  letter-spacing: 1px;
+}
+
+.user-list,
+.channel-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.user-item,
+.channel-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin: 8px 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.user-item:hover,
+.channel-item:hover {
+  background-color: #e9f4ff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.user-avatar {
+  margin-right: 12px;
+  font-size: 26px;
+  color: #007bff;
+}
+
+.user-details {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ccc; /* Default if user is offline */
+  transition: background-color 0.3s ease;
+}
+
+.status-indicator.online {
+  background-color: #28a745; /* Green for online status */
+}
+
+.channel-name {
+  font-size: 1rem;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    width: 220px;
   }
-  
+
+  .sidebar-title {
+    font-size: 1.25rem;
+  }
+
+  .user-avatar {
+    font-size: 22px;
+  }
+
+  .user-name {
+    font-size: 0.9rem;
+  }
+
+  .channel-name {
+    font-size: 0.9rem;
+  }
+}
+

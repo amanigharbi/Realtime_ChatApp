@@ -1,99 +1,92 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef, AfterViewChecked, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
-import { getDatabase, ref, onValue, push, set, serverTimestamp } from '@angular/fire/database';
 import { FormsModule } from '@angular/forms';
-import { EmojiPickerComponent } from '../../emoji-picker/emoji-picker.component';  // Import du composant emoji
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { getDatabase, ref, onValue, push, serverTimestamp } from '@angular/fire/database';
+import { ActivatedRoute } from '@angular/router'; // pour obtenir les paramètres de la route
 
 @Component({
   selector: 'app-chat-box',
   standalone: true,
-  imports: [CommonModule, FormsModule, EmojiPickerComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [CommonModule, FormsModule],
   templateUrl: './chat-box.component.html',
   styleUrls: ['./chat-box.component.scss']
 })
-export class ChatBoxComponent implements OnInit {
+export class ChatBoxComponent implements OnInit, AfterViewChecked {
+  @Input() chatType: 'private' | 'channel' = 'private';
+  @Input() targetId!: string;
+
+  @ViewChild('scrollContainer') private scrollContainer!: ElementRef;
+
   messages: any[] = [];
-  inputText: string = '';
-  chatType: 'private' | 'channel' = 'private';
-  targetId: string = '';
-  currentUserId: string = ''; // À récupérer depuis AuthService
-  users: any = {};  // Stockage des utilisateurs et leurs noms
+  newMessage = '';
+  currentUserId = '';
 
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Exemple hardcodé, à remplacer par l'auth réelle
-    this.currentUserId = 'user1';
+    const currentUserId = 'current_user_uid'; // Remplace par l'ID de l'utilisateur connecté
 
-    const db = getDatabase();
-
-    // Charger les utilisateurs (pour récupérer leurs noms)
-    const usersRef = ref(db, 'users');
-    onValue(usersRef, snapshot => {
-      const data = snapshot.val();
-      this.users = data;  // On stocke les noms des utilisateurs dans this.users
-    });
-
-    // Chargement des messages pour le chat (privé ou public)
+    // Récupère l'ID du canal ou de l'utilisateur (selon la route)
     this.route.params.subscribe(params => {
-      this.chatType = this.route.snapshot.url[0].path as 'private' | 'channel';
-      this.targetId = params['uid'] || params['cid'];
-
-      let chatRef;
-
-      if (this.chatType === 'private') {
-        const chatId = this.getPrivateChatId(this.currentUserId, this.targetId);
-        chatRef = ref(db, `privateChats/${chatId}/messages`);
-      } else {
-        chatRef = ref(db, `publicChannels/${this.targetId}/messages`);
+      if (params['uid']) {
+        // Si l'ID cible est un utilisateur, c'est une discussion privée
+        this.targetId = params['uid'];
+        this.chatType = 'private';
+      } else if (params['cid']) {
+        // Si l'ID cible est un canal public, c'est un canal
+        this.targetId = params['cid'];
+        this.chatType = 'channel';
       }
 
-      onValue(chatRef, snapshot => {
-        const data = snapshot.val() || {};
-        this.messages = Object.values(data).sort((a: any, b: any) => a.timestamp - b.timestamp);
+      // Charger les messages du canal public ou de la conversation privée
+      const db = getDatabase();
+      const path = this.chatType === 'private'
+        ? `privateChats/${this.getPrivateChatId(currentUserId, this.targetId)}/messages`
+        : `publicChannels/${this.targetId}/messages`;
+
+      const messagesRef = ref(db, path);
+
+      onValue(messagesRef, snapshot => {
+        const data = snapshot.val();
+        this.messages = data
+          ? Object.values(data).sort((a: any, b: any) => a.timestamp - b.timestamp)
+          : [];
       });
     });
   }
 
-  getPrivateChatId(uid1: string, uid2: string): string {
-    return [uid1, uid2].sort().join('_');
+  ngAfterViewChecked(): void {
+    this.scrollToBottom();
   }
 
-  getUserName(userId: string): string {
-    return this.users[userId]?.displayName || 'Utilisateur';  // Retourne le nom de l'utilisateur ou un fallback
-  }
-
-  getFormattedTime(timestamp: number): string {
-    const date = new Date(timestamp);
-    return `${date.getHours()}:${date.getMinutes()}`;
-  }
-
-  handleEmojiSelect(emoji: string) {
-    this.inputText += emoji;  // Ajoute l'emoji sélectionné au texte du message
-  }
-
-  // Méthode pour envoyer le message depuis le parent
-  sendMessage(message: string) {
-    if (!message.trim()) return;
+  sendMessage() {
+    if (!this.newMessage.trim()) return;
 
     const db = getDatabase();
-    const chatId = this.chatType === 'private'
-      ? `privateChats/${this.getPrivateChatId(this.currentUserId, this.targetId)}/messages`
+    const currentUserId = 'current_user_uid'; // Remplace par l'ID de l'utilisateur connecté
+    const path = this.chatType === 'private'
+      ? `privateChats/${this.getPrivateChatId(currentUserId, this.targetId)}/messages`
       : `publicChannels/${this.targetId}/messages`;
 
-    const msgRef = push(ref(db, chatId));
-    set(msgRef, {
-      from: this.currentUserId,
-      text: message,
+    const msgRef = ref(db, path);
+    push(msgRef, {
+      from: currentUserId,
+      text: this.newMessage,
       timestamp: serverTimestamp()
     });
 
-    this.inputText = '';  // Réinitialisation du champ de texte
+    this.newMessage = '';
   }
-  addEmoji(emoji: string) {
-    this.inputText += emoji;
+
+  private getPrivateChatId(uid1: string, uid2: string): string {
+    return [uid1, uid2].sort().join('_');
+  }
+
+  private scrollToBottom() {
+    if (this.scrollContainer) {
+      setTimeout(() => {
+        this.scrollContainer.nativeElement.scrollTop = this.scrollContainer.nativeElement.scrollHeight;
+      }, 100);
+    }
   }
 }
