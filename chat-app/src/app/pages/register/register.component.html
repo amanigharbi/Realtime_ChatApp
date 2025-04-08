@@ -1,13 +1,48 @@
-<div class="register-container">
-    <h2>Inscription</h2>
+<section class="container position-relative">
+    <!-- Sélecteur de thème -->
+    <div class="theme-btn-container-vertical">
+      <div
+        *ngFor="let theme of themeService.themes"
+        class="theme-btn"
+        (click)="themeService.setTheme(theme)"
+        [ngStyle]="{
+          'background': theme.background,
+          'width.px': 25,
+          'height.px': 25,
+          'border-radius': '50%',
+          'cursor': 'pointer'
+        }"
+      ></div>
+    </div>
   
-    <form (ngSubmit)="register()">
-      <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Mot de passe" required />
-      <button type="submit">S'inscrire</button>
-      <p class="error" *ngIf="error">{{ error }}</p>
-    </form>
+    <!-- Formulaire d'inscription -->
+    <div class="login-container">
+      <div class="circle circle-one"></div>
+      <div class="form-container">
+        <img
+          src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png"
+          alt="illustration"
+          class="illustration"
+        />
+        <h1 class="opacity">Créer un compte</h1>
   
-    <p>Déjà inscrit ? <a routerLink="/login">Connexion</a></p>
-  </div>
+        <!-- 🔴 Alerte Bootstrap -->
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+  
+        <form (ngSubmit)="onRegister()">
+          <input type="text" [(ngModel)]="displayName" name="displayName" required placeholder="Nom d'utilisateur" />
+          <input type="email" [(ngModel)]="email" name="email" required placeholder="Email" />
+          <input type="password" [(ngModel)]="password" name="password" required placeholder="Mot de passe" />
+          <button type="submit" class="opacity">S'inscrire</button>
+        </form>
+  
+        <div class="register-forget opacity">
+          <a routerLink="/login">Déjà inscrit ? Se connecter</a>
+        </div>
+      </div>
+      <div class="circle circle-two"></div>
+    </div>
+  </section>
   

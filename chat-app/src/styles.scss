@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+    --background: #1A1A2E;
+    --color: #FFFFFF;
+    --primary-color: #0F3460;
+    --glass-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  body {
+    background-color: var(--background);
+    color: var(--color);
+    transition: all 0.3s ease;
+  }
+  

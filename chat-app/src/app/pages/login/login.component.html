@@ -1,13 +1,48 @@
-<div class="login-container">
-    <h2>Connexion</h2>
+<section class="container position-relative">
+    <!-- Sélecteur de thème vertical -->
+    <div class="theme-btn-container-vertical">
+      <div
+        *ngFor="let theme of themeService.themes"
+        class="theme-btn"
+        (click)="themeService.setTheme(theme)"
+        [ngStyle]="{
+          'background': theme.background,
+          'width.px': 25,
+          'height.px': 25,
+          'border-radius': '50%',
+          'cursor': 'pointer'
+        }"
+      ></div>
+    </div>
   
-    <form (ngSubmit)="login()">
-      <input type="email" [(ngModel)]="email" name="email" placeholder="Email" required />
-      <input type="password" [(ngModel)]="password" name="password" placeholder="Mot de passe" required />
-      <button type="submit">Se connecter</button>
-      <p class="error" *ngIf="error">{{ error }}</p>
-    </form>
+    <!-- Formulaire de connexion -->
+    <div class="login-container">
+      <div class="circle circle-one"></div>
+      <div class="form-container">
+        <img
+          src="https://raw.githubusercontent.com/hicodersofficial/glassmorphism-login-form/master/assets/illustration.png"
+          alt="illustration"
+          class="illustration"
+        />
+        <h1 class="opacity">Connexion</h1>
   
-    <p>Pas encore de compte ? <a routerLink="/register">Inscription</a></p>
-  </div>
+        <!-- 🔴 Alert Bootstrap si erreur -->
+        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+          {{ errorMessage }}
+        </div>
+  
+        <form (ngSubmit)="onLogin()">
+          <input type="email" [(ngModel)]="email" name="email" required placeholder="Email" />
+          <input type="password" [(ngModel)]="password" name="password" required placeholder="Mot de passe" />
+          <button type="submit" class="opacity">Se connecter</button>
+        </form>
+  
+        <div class="register-forget opacity">
+          <a routerLink="/register">Créer un compte</a>
+          <a href="#">Mot de passe oublié ?</a>
+        </div>
+      </div>
+      <div class="circle circle-two"></div>
+    </div>
+  </section>
   
