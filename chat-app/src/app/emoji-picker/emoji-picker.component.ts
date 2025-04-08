@@ -1,18 +1,19 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import EmojiPicker from 'emoji-picker-react';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-emoji-picker',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './emoji-picker.component.html',
   styleUrls: ['./emoji-picker.component.scss']
 })
 export class EmojiPickerComponent {
-  @Output() emojiSelect = new EventEmitter<string>();
+  emojis: string[] = ['😀', '😂', '😍', '😭', '😡', '👍', '🔥', '💯'];
 
-  // Removed duplicate handleEmojiClick definition
+  @Output() emojiSelected = new EventEmitter<string>();
 
-  // Removed render method and replaced with Angular-compatible template usage
-  handleEmojiClick(event: any) {
-    this.emojiSelect.emit(event.emoji);  // Emit the selected emoji
+  selectEmoji(emoji: string) {
+    this.emojiSelected.emit(emoji);
   }
 }

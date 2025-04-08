@@ -4,11 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { getDatabase, ref, onValue, push, set, serverTimestamp } from '@angular/fire/database';
 import { FormsModule } from '@angular/forms';
 import { EmojiPickerComponent } from '../../emoji-picker/emoji-picker.component';  // Import du composant emoji
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 @Component({
   selector: 'app-chat-box',
   standalone: true,
   imports: [CommonModule, FormsModule, EmojiPickerComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   templateUrl: './chat-box.component.html',
   styleUrls: ['./chat-box.component.scss']
 })
@@ -19,7 +21,6 @@ export class ChatBoxComponent implements OnInit {
   targetId: string = '';
   currentUserId: string = ''; // À récupérer depuis AuthService
   users: any = {};  // Stockage des utilisateurs et leurs noms
-  userStatus: any = {};  // Statut des utilisateurs (en ligne / hors ligne)
 
   constructor(private route: ActivatedRoute) {}
 
@@ -34,13 +35,6 @@ export class ChatBoxComponent implements OnInit {
     onValue(usersRef, snapshot => {
       const data = snapshot.val();
       this.users = data;  // On stocke les noms des utilisateurs dans this.users
-    });
-
-    // Charger les statuts des utilisateurs (en ligne / hors ligne)
-    const statusRef = ref(db, 'userStatus');
-    onValue(statusRef, snapshot => {
-      const statusData = snapshot.val();
-      this.userStatus = statusData;  // On stocke les statuts dans this.userStatus
     });
 
     // Chargement des messages pour le chat (privé ou public)
@@ -60,12 +54,6 @@ export class ChatBoxComponent implements OnInit {
       onValue(chatRef, snapshot => {
         const data = snapshot.val() || {};
         this.messages = Object.values(data).sort((a: any, b: any) => a.timestamp - b.timestamp);
-
-        // Si un nouveau message est reçu, afficher une notification
-        const latestMessage = this.messages[this.messages.length - 1];
-        if (latestMessage.from !== this.currentUserId) {
-          this.showNotification(latestMessage);
-        }
       });
     });
   }
@@ -78,46 +66,18 @@ export class ChatBoxComponent implements OnInit {
     return this.users[userId]?.displayName || 'Utilisateur';  // Retourne le nom de l'utilisateur ou un fallback
   }
 
-  getUserStatus(userId: string): string {
-    return this.userStatus[userId] === 'online' ? 'En ligne' : 'Hors ligne';  // Affichage du statut en ligne ou hors ligne
-  }
-
   getFormattedTime(timestamp: number): string {
     const date = new Date(timestamp);
-    return `${date.getHours()}:${date.getMinutes()}`;  // Format de l'heure du message
-  }
-
-  showNotification(message: any) {
-    // Vérifier si les notifications sont autorisées
-    if (Notification.permission === "granted") {
-      new Notification('Nouveau message', {
-        body: `${this.getUserName(message.from)}: ${message.text}`,
-      });
-      this.playNotificationSound();
-    } else {
-      // Demander la permission si non accordée
-      Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-          new Notification('Nouveau message', {
-            body: `${this.getUserName(message.from)}: ${message.text}`,
-          });
-          this.playNotificationSound();
-        }
-      });
-    }
-  }
-
-  playNotificationSound() {
-    const audio = new Audio('/assets/notification.mp3');  // Assurez-vous que le fichier notification.mp3 existe dans le répertoire assets
-    audio.play();
+    return `${date.getHours()}:${date.getMinutes()}`;
   }
 
   handleEmojiSelect(emoji: string) {
     this.inputText += emoji;  // Ajoute l'emoji sélectionné au texte du message
   }
 
-  sendMessage() {
-    if (!this.inputText.trim()) return;
+  // Méthode pour envoyer le message depuis le parent
+  sendMessage(message: string) {
+    if (!message.trim()) return;
 
     const db = getDatabase();
     const chatId = this.chatType === 'private'
@@ -127,10 +87,13 @@ export class ChatBoxComponent implements OnInit {
     const msgRef = push(ref(db, chatId));
     set(msgRef, {
       from: this.currentUserId,
-      text: this.inputText,
+      text: message,
       timestamp: serverTimestamp()
     });
 
     this.inputText = '';  // Réinitialisation du champ de texte
+  }
+  addEmoji(emoji: string) {
+    this.inputText += emoji;
   }
 }

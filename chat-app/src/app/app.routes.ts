@@ -6,7 +6,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { ChatPageComponent } from './pages/chat-page/chat-page.component';  // Import de la page de chat
 import { authGuard } from './guards/auth.guard'; 
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [authGuard] }, // Home page protégée
   { path: 'login', component: LoginComponent },  // Page de login
   { path: 'register', component: RegisterComponent },  // Page d'inscription

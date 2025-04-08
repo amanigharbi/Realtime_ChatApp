@@ -1,16 +1,6 @@
-<div class="chat-box">
-    <div class="messages">
-      <div *ngFor="let msg of messages" class="message" [class.mine]="msg.from === currentUserId">
-        <span class="author">{{ getUserName(msg.from) }}</span>
-        <p>{{ msg.text }}</p>
-        <span class="time">{{ getFormattedTime(msg.timestamp) }}</span> <!-- Affichage de l'heure -->
-      </div>
-    </div>
-  
-    <div class="input-area">
-      <input [(ngModel)]="inputText" (keyup.enter)="sendMessage()" placeholder="Écris un message..." />
-      <app-emoji-picker (emojiSelect)="handleEmojiSelect($event)"></app-emoji-picker> <!-- Sélecteur d'émoticônes -->
-      <button (click)="sendMessage()">Envoyer</button>
-    </div>
+<div class="emoji-picker">
+    <button *ngFor="let emoji of emojis" (click)="selectEmoji(emoji)">
+      {{ emoji }}
+    </button>
   </div>
   
