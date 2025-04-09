@@ -1,24 +1,27 @@
 <!-- NAVBAR -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-6">
-  <div class="container-fluid">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm px-4">
+  <div class="container-fluid d-flex justify-content-between">
+    <!-- À gauche : Logo -->
     <a class="navbar-brand fw-bold animated-title" href="#">ChatVerse 🚀</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+
+    <!-- Bouton hamburger mobile -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+      aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto d-flex align-items-center">
+    <!-- À droite : liens de navigation + utilisateur -->
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav align-items-center gap-3">
         <li class="nav-item">
-          <a class="nav-link " routerLink="/home">Accueil</a>
+          <a class="nav-link" routerLink="/home">Accueil</a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" routerLink="/chat">Chats</a>
         </li>
-
-        <!-- Box de l'utilisateur avec Avatar, Nom et Icône de déconnexion -->
-        <li class="nav-item d-flex align-items-center user-box">
-          <i class="bi bi-person-circle user-avatar me-2"></i>
-          <span class="navbar-text me-2">{{ username }}</span>
+        <li class="nav-item d-flex align-items-center gap-2 user-box">
+          <i class="bi bi-person-circle user-avatar"></i>
+          <span class="navbar-text">{{ username }}</span>
           <button class="btn btn-outline-light btn-sm" (click)="logout()">
             <i class="bi bi-box-arrow-right"></i>
           </button>
@@ -27,6 +30,7 @@
     </div>
   </div>
 </nav>
+
 
 <!-- Sélecteur de thème vertical -->
 <div class="theme-btn-container-vertical">

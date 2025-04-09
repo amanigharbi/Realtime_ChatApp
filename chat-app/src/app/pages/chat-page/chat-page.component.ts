@@ -45,6 +45,13 @@ export class ChatPageComponent {
     if (currentUser) {
       this.username = currentUser.email?.split('@')[0] ?? 'User';
     }
+  
+    // 🔁 Sécurité : rediriger si pas de paramètre
+    this.route.params.subscribe(params => {
+      if (!params['uid'] && !params['cid']) {
+        this.router.navigate(['/chat/channel/general']);
+      }
+    });
   }
 
   async logout() {

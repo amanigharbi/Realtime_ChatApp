@@ -1,32 +1,48 @@
-/* Navbar */
+/* NAVBAR FIXÉE EN HAUT */
 .navbar {
-  font-family: 'Segoe UI', sans-serif;
-  gap: 10px;
-  z-index: 3;
-  position: relative; /* Nécessaire pour assurer la superposition correcte */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1030;
+  background-color: #343a40; /* Même fond que bg-dark */
+  padding: 0.5rem 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Pour que le contenu en-dessous ne passe pas sous la navbar */
+body,
+app-root {
+  padding-top: 60px; /* Ajuste selon la hauteur de ta navbar */
+}
 .navbar-brand {
   font-size: 1.5rem;
   font-weight: bold;
   color: #fff;
 }
 
-.navbar-nav .nav-item .nav-link {
-  color: #fff;
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
+
+.nav-link {
+  color: #fff !important;
+  font-size: 15px;
   transition: color 0.2s;
 }
 
-.navbar-nav .nav-item .nav-link.active {
-  color: #28a745; /* Active link en vert */
+.nav-link.active {
+  color: #28a745 !important;
 }
 
-.navbar-toggler {
-  border: none;
+.user-box {
+  gap: 8px;
 }
 
-.navbar-toggler-icon {
-  background-color: #fff;
+.user-avatar {
+  font-size: 1.5rem;
+  color: #fff;
 }
 
 /* Sidebar */

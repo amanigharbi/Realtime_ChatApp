@@ -7,10 +7,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  height: 100vh;
+  height: 90vh;
   position: fixed;
   left: 0;
   top: 10%;
+  border-radius: 12px;
+
 }
 
 .sidebar-title {

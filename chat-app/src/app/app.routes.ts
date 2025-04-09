@@ -7,20 +7,20 @@ import { ChatPageComponent } from './pages/chat-page/chat-page.component';  // I
 import { authGuard } from './guards/auth.guard'; 
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [authGuard] }, // Home page protégée
-  { path: 'login', component: LoginComponent },  // Page de login
-  { path: 'register', component: RegisterComponent },  // Page d'inscription
+  { path: '', component: HomeComponent, canActivate: [authGuard] },
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
   {
     path: 'chat',
-    component: ChatPageComponent,
-    canActivate: [authGuard],  // Protéger l'accès à la page de chat
+    canActivate: [authGuard],
     children: [
-      { path: 'chat/private/:uid', component: ChatPageComponent },
-
-      { path: 'channel/:cid', component: ChatPageComponent },  // Chat dans un canal public
+      { path: '', redirectTo: 'channel/general', pathMatch: 'full' }, // ✅ redirection automatique
+      { path: 'private/:uid', component: ChatPageComponent },
+      { path: 'channel/:cid', component: ChatPageComponent }
     ]
   }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

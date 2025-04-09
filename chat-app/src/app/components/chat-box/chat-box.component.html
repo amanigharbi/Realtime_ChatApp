@@ -1,45 +1,35 @@
-<div class="messages-chat">
-    <div *ngFor="let msg of messages">
-      <!-- Message de l'autre utilisateur -->
-      <div *ngIf="msg.from !== currentUser" class="message">
-        <div
-          class="photo"
-          [style.backgroundImage]="'url(' + getUserAvatar(msg.from) + ')'"
-        >
-          <div class="online"></div>
+<div class="chat-box">
+    <div class="chat-messages">
+      <div *ngFor="let msg of messages">
+        <!-- Message reçu -->
+        <div *ngIf="msg.from !== currentUser" class="message left">
+          <img [src]="getUserAvatar(msg.from)" alt="Avatar" class="avatar" />
+          <div class="bubble">
+            <p class="text">{{ msg.text }}</p>
+            <span class="timestamp">{{ msg.timestamp | date: 'shortTime' }}</span>
+          </div>
         </div>
-        <p class="text">{{ msg.text }}</p>
-      </div>
   
-      <!-- Message de l'utilisateur courant -->
-      <div *ngIf="msg.from === currentUser" class="message text-only">
-        <div class="response">
-          <p class="text">{{ msg.text }}</p>
+        <!-- Message envoyé -->
+        <div *ngIf="msg.from === currentUser" class="message right">
+          <div class="bubble bubble-right">
+            <p class="text">{{ msg.text }}</p>
+            <span class="timestamp">{{ msg.timestamp | date: 'shortTime' }}</span>
+          </div>
         </div>
       </div>
-  
-      <!-- Heure de l'envoi du message -->
-      <p
-        class="time"
-        [ngClass]="{ 'response-time': msg.from === currentUser }"
-      >
-        {{ msg.timestamp | date: 'shortTime' }}
-      </p>
     </div>
-  </div>
   
-  <!-- Footer input -->
-  <div class="footer-chat">
-    <i class="icon fa fa-smile-o clickable" style="font-size: 25pt;"></i>
-    <input
-      type="text"
-      class="write-message"
-      placeholder="Tape ton message ici"
-      [(ngModel)]="newMessage"
-    />
-    <i
-      class="icon send fa fa-paper-plane-o clickable"
-      (click)="sendMessage()"
-    ></i>
+    <!-- Zone de saisie -->
+    <div class="footer-chat">
+      <i class="icon fa fa-smile-o clickable"></i>
+      <input
+        type="text"
+        class="write-message"
+        placeholder="Tape ton message ici"
+        [(ngModel)]="newMessage"
+      />
+      <i class="icon send fa fa-paper-plane-o clickable" (click)="sendMessage()"></i>
+    </div>
   </div>
   
