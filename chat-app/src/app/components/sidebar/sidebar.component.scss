@@ -107,4 +107,19 @@
     font-size: 0.9rem;
   }
 }
+/* Ajouter la classe 'selected' pour l'élément sélectionné */
+.user-item.active,
+.channel-item.active {
+  background-color: #d0e9ff;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  border-left: 4px solid #007bff;
+}
+
+
+.user-item.selected:hover,
+.channel-item.selected:hover {
+  background-color: #cce5ff; /* Couleur de survol pour l'élément sélectionné */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Garde l'effet de survol */
+}
+
 

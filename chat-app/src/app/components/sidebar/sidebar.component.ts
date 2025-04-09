@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { getDatabase, ref, onValue } from '@angular/fire/database';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router'; // pour la navigation vers le chat
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -14,8 +14,10 @@ import { Router } from '@angular/router'; // pour la navigation vers le chat
 export class SidebarComponent implements OnInit {
   users: any[] = [];
   publicChannels: any[] = [];
+  selectedUser: any = null;
+  selectedChannel: any = null;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     const db = getDatabase();
@@ -28,6 +30,13 @@ export class SidebarComponent implements OnInit {
         uid,
         ...user
       }));
+
+      // Vérifie s’il faut sélectionner un utilisateur
+      const uid = this.route.snapshot.params['uid'];
+      if (uid) {
+        this.selectedUser = this.users.find(u => u.uid === uid);
+        this.selectedChannel = null;
+      }
     });
 
     // Récupérer les canaux publics
@@ -38,18 +47,39 @@ export class SidebarComponent implements OnInit {
         cid,
         ...channel
       }));
+
+      const routeCid = this.route.snapshot.params['cid'];
+
+      // Cas spécial : /chat/channel/general
+      if (!this.route.snapshot.params['uid'] && routeCid === 'general') {
+        const general = this.publicChannels.find(c =>
+          c.name.toLowerCase() === 'général' || c.name.toLowerCase() === 'general'
+        );
+        if (general) {
+          this.selectedChannel = general;
+          this.selectedUser = null;
+        }
+      } else if (routeCid) {
+        const found = this.publicChannels.find(c => c.cid === routeCid);
+        if (found) {
+          this.selectedChannel = found;
+          this.selectedUser = null;
+        }
+      }
     });
   }
 
-  // Naviguer vers la page de chat pour une conversation privée
   openChat(user: any) {
-    const currentUserId = 'current_user_uid'; // remplace par le uid de l'utilisateur connecté
+    this.selectedUser = user;
+    this.selectedChannel = null;
+    const currentUserId = 'current_user_uid'; 
     const chatId = [currentUserId, user.uid].sort().join('_');
     this.router.navigate(['/chat', { uid: chatId }]);
   }
 
-  // Naviguer vers un canal public
   openChannel(channel: any) {
+    this.selectedChannel = channel;
+    this.selectedUser = null;
     this.router.navigate(['/chat', { cid: channel.cid }]);
   }
 }
