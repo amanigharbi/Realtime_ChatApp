@@ -1,18 +1,22 @@
 <div class="chat-box">
-    <div class="chat-messages">
+    <div class="chat-messages" #scrollContainer>
       <div *ngFor="let msg of messages">
         <!-- Message reçu -->
-        <div *ngIf="msg.from !== currentUser" class="message left">
+        <div *ngIf="msg.from !== currentUserId" class="message left">
           <img [src]="getUserAvatar(msg.from)" alt="Avatar" class="avatar" />
           <div class="bubble">
+            <div class="sender-name">{{ getSenderName(msg.from) }}</div>
             <p class="text">{{ msg.text }}</p>
             <span class="timestamp">{{ msg.timestamp | date: 'shortTime' }}</span>
           </div>
         </div>
   
         <!-- Message envoyé -->
-        <div *ngIf="msg.from === currentUser" class="message right">
+        <div *ngIf="msg.from === currentUserId" class="message right" style="margin-left: 50%;">
+            <img [src]="getUserAvatar(msg.from)" alt="Avatar" class="avatar" />
+
           <div class="bubble bubble-right">
+            <div class="sender-name self">Moi : {{ getSenderName(currentUserId) }}</div> 
             <p class="text">{{ msg.text }}</p>
             <span class="timestamp">{{ msg.timestamp | date: 'shortTime' }}</span>
           </div>
@@ -28,6 +32,7 @@
         class="write-message"
         placeholder="Tape ton message ici"
         [(ngModel)]="newMessage"
+        (keyup.enter)="sendMessage()"
       />
       <i class="icon send fa fa-paper-plane-o clickable" (click)="sendMessage()"></i>
     </div>

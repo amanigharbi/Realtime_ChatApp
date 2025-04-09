@@ -18,21 +18,23 @@
   width: 78% !important;
   background-color: #fff;
   border-radius: 12px;
-  overflow: hidden;
-  width: 17%;
-  background-color: #f4f4f4;
   padding: 20px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
-  display: flex;
   position: fixed;
   left: 18%;
   top: 10%;
+  overflow: hidden; /* Le conteneur principal ne doit pas être scrollable directement */
 }
 
 .chat-messages {
   flex: 1;
-  overflow-y: auto;
+  overflow: auto; /* Permet le défilement vertical */
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espace entre les messages */
+  max-height: calc(100vh - 160px); /* Assure que la hauteur des messages est correcte */
+  
 }
 
 .message {
@@ -46,7 +48,7 @@
 }
 
 .message.right {
-  flex-direction: row-reverse;
+  flex-direction: row;
   justify-content: flex-end;
 }
 
@@ -73,7 +75,7 @@
   background-color: #f0f0f0;
   padding: 12px 16px;
   border-radius: 18px;
-  max-width: fit-content;
+  max-width: 400px;
   position: relative;
   color: #000;
 }
@@ -127,3 +129,4 @@
   padding: 10px;
   font-size: 16px;
 }
+
